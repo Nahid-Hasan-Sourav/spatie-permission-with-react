@@ -11,7 +11,7 @@ const UserProvider = ({ children }) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  }, [user]);
+  }, [user?.id]);
 
   const logout = () => {
     localStorage.removeItem("user");

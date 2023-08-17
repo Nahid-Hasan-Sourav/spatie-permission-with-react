@@ -4,6 +4,8 @@ import Main from "../../Layouts/Main";
 import Dashboard from "../../Layouts/Dashboard";
 import Login from "../../pages/Login/Login";
 import SignUp from "../../pages/SignUp/SignUp";
+import AllRoles from "../../pages/AllRoles/AllRoles";
+import AllUsers from "../../pages/AllUsers/AllUsers";
 
 export const router = createBrowserRouter([
     {
@@ -16,18 +18,30 @@ export const router = createBrowserRouter([
                 
             },
             {
-                path:'dashboard',
-                element:<Dashboard/>,
-                
-            },
-            {
                 path:'/login',
                 element:<Login/>
             },
             {
                 path:'/signUp',
                 element:<SignUp/>
-            }
+            },
+            {
+                path:'/dashboard',
+                element:<Dashboard/>,
+                children:[
+                    {
+                        path:'all-roles',
+                        element:<AllRoles/>
+                    },
+                    {
+                        path:'all-users',
+                        element:<AllUsers/>
+                    }
+                ]
+                
+            },
+            
+          
         ]
     }
 ])

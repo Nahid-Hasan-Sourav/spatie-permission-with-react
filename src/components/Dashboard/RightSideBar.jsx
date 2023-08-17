@@ -18,13 +18,13 @@ const RightSideBar = () => {
         <div>
           <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 rounded-box w-52">
             <li>
-              <Link   className="text-black">
-                Category
+              <Link to="all-roles"  className="text-black">
+                Roles
               </Link>
             </li>
             <li>
-              <Link  className="text-black">
-                Course
+              <Link to="all-users" className="text-black">
+                Users
               </Link>
             </li>
           </ul>
