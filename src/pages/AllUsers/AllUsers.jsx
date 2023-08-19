@@ -4,16 +4,29 @@ import { MdDelete } from 'react-icons/md';
 import AddUserModal from '../../components/Modal/AddUserModal';
 import { UserContext } from '../../context/UserProvider';
 import TimeAgo from '../../components/Times/TimeAgo';
+import EditUserModal from '../../components/Modal/EditUserModal';
 const AllUsers = () => {
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
   const {allUsers}=useContext(UserContext)
   console.log("Getting all users",allUsers.allusers)
   const [isOpen,setisOpen]=useState(false);
+  const [isEditModalOpen,setIsEditModalOpen]=useState(false)
+  const [editData,setEditData]=useState({})
   const onClose=()=>{
     setisOpen(!true);
   }
 
+  const closeEditModal=()=>{
+    setIsEditModalOpen(false);
+  }
+
+  const editModal=(data)=>{
+    setIsEditModalOpen(!false)
+    setEditData(data)
+
+  }
+    console.log("Edit Data",editData)
   
 
   return (
@@ -47,13 +60,15 @@ const AllUsers = () => {
            return(
          
             <tr className="text-white bg-[#374151]" key={id}>
-              {   console.log("Users",item?.roles[0]?.name)}
+              
             <td className="px-4 py-2 border">1</td>
             <td className="px-4 py-2 border">{item?.name}</td>
             <td className="px-4 py-2 border">{item?.roles[0]?.name ? item?.roles[0]?.name :"NOT SET YET"}</td>
             <td className="px-4 py-2 border"><TimeAgo createdAt={item.created_at}></TimeAgo></td>
             <td className="px-4 py-2 border flex">
-             <button className="btn btn-active btn-success mr-3">
+             <button className="btn btn-active btn-success mr-3"
+             onClick={()=>editModal(item)}
+             >
              <FaEdit className='text-2xl'/>
              </button>
              <button className="btn btn-active btn-error">
@@ -71,6 +86,13 @@ const AllUsers = () => {
      </div>
    </div>
   <AddUserModal isOpen={isOpen} onClose={onClose}/>
+  <EditUserModal 
+  isEditModalOpen={isEditModalOpen} 
+  setIsEditModalOpen={setIsEditModalOpen}
+  closeEditModal={closeEditModal}
+  editData={editData}
+
+  />
   </div>
   );
 };
