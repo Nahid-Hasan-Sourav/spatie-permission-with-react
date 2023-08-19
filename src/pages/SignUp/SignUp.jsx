@@ -1,6 +1,10 @@
 import { Link, useNavigate  } from "react-router-dom";
 
 const SignUp = () => {
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+  console.log("url",apiUrl)
+
+
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
@@ -16,8 +20,9 @@ const SignUp = () => {
       email,
       password
     }
+    // 'http://192.168.0.4:8080/api/register', 
     try {
-      const response = await fetch('http://192.168.0.4:8080/api/register', {
+      const response = await fetch(`${apiUrl}register`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -45,7 +50,7 @@ const SignUp = () => {
     return (
         <div className="flex items-center justify-center w-screen h-screen bg-slate-400">
         <div className="w-full max-w-md mx-auto bg-white rounded shadow-lg ">
-            <form onSubmit={handleSignIn}  className="px-8 pt-6 pb-8 mb-4 ">
+        <form onSubmit={handleSignIn}  className="px-8 pt-6 pb-8 mb-4 ">
           
           <div className="mb-4">
             <label className="block mb-2 text-sm font-bold text-gray-700">

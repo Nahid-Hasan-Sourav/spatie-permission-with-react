@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { userContext } from "../../context/userProvider";
+import { UserContext } from "../../context/UserProvider";
+// import { userContext } from "../../context/UserProvider";
 
 const Navbar = () => {
-  const { user,logout } = useContext(userContext);
+  // const { user,logout } = useContext(userContext);
+  const {user,logout}=useContext(UserContext)
   console.log("this is from navbar user", user);
   return (
     <div>

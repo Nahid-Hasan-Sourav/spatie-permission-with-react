@@ -1,11 +1,13 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { userContext } from "../../context/userProvider";
+import { UserContext} from "../../context/UserProvider";
 
 const Login = () => {
   // const [name,setName]=useState('');
   // const [email,setEmail]=useState('');
-  const { user, setUser } = useContext(userContext);
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+  console.log("url",apiUrl)
+  const { user, setUser } = useContext(UserContext);
   const navigate=useNavigate();
   const handleUserLogin = async (e) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ const Login = () => {
     };
 
     try {
-      const response = await fetch("http://192.168.0.4:8080/api/login", {
+      const response = await fetch(`${apiUrl}login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

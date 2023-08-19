@@ -1,6 +1,7 @@
 import { RouterProvider } from "react-router-dom"
 import { router } from "./routes/routes/routes"
-import UserProvider from "./context/userProvider"
+import UserProvider from "./context/UserProvider";
+
 
 
 function App() {
@@ -11,6 +12,8 @@ function App() {
       <UserProvider>
         <RouterProvider router={router} />
       </UserProvider>
+        
+     
     </>
   );
 }
