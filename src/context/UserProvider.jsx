@@ -26,7 +26,11 @@ const UserProvider = ({ children }) => {
 
   // GET ALL USERS when component mounts
   useEffect(() => {
-    axios.get(`${apiUrl}all-users`)
+    axios.get(`${apiUrl}all-users`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then(response => {
         setAllUsers(response.data);
        
@@ -38,7 +42,11 @@ const UserProvider = ({ children }) => {
 
   // GET ALL ROLES when component mounts
   useEffect(() => {
-    axios.get(`${apiUrl}all-roles`)
+    axios.get(`${apiUrl}all-roles`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then(response => {
         setAllRoles(response.data);
        
@@ -50,7 +58,11 @@ const UserProvider = ({ children }) => {
 
   // GET ALL PERMISSION when component mounts
   useEffect(() => {
-    axios.get(`${apiUrl}all-permission`)
+    axios.get(`${apiUrl}all-permission`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      }
+    })
       .then(response => {
         setAllPermission(response.data);
        console.log('All Permission',response?.data?.permission[0])
@@ -61,7 +73,11 @@ const UserProvider = ({ children }) => {
   }, []);
     // GET ALL Role With PERMISSION when component mounts
     useEffect(() => {
-      axios.get(`${apiUrl}all-role-with-permission`)
+      axios.get(`${apiUrl}all-role-with-permission`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
+      })
         .then(response => {
           setAllRolePermission(response.data);
         //  console.log('All Permission',response?.data?.permission[0])

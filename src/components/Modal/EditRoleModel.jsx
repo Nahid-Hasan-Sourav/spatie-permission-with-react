@@ -44,6 +44,8 @@ const EditRoleModel = ({editRoleModal,setEditRoleModal,editRoleModalData,closeEd
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+
             },
             body: JSON.stringify(updateRolePermission),
         });
@@ -54,7 +56,7 @@ const EditRoleModel = ({editRoleModal,setEditRoleModal,editRoleModalData,closeEd
             if(responseData.status==="success"){
               form.reset();
               setEditRoleModal(!editRoleModal);
-              setUpdateRolePermissionRefetch(!updateRolePermissionRefetch)
+              setUpdateRolePermissionRefetch(!false)
             }
           
         } else {
