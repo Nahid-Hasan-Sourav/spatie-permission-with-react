@@ -8,7 +8,7 @@ import EditUserModal from '../../components/Modal/EditUserModal';
 const AllUsers = () => {
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-  const {allUsers}=useContext(UserContext)
+  const {allUsers,allRoles}=useContext(UserContext)
   console.log("Getting all users",allUsers.allusers)
   const [isOpen,setisOpen]=useState(false);
   const [isEditModalOpen,setIsEditModalOpen]=useState(false)
@@ -23,15 +23,16 @@ const AllUsers = () => {
 
   const editModal=(data)=>{
     setIsEditModalOpen(!false)
-    setEditData(data)
+    setEditData(data) 
 
   }
     console.log("Edit Data",editData)
+    console.log("All Roles",allRoles?.allrole)
   
 
   return (
-    <div className="w-[100%]">
-   <div className="p-[20px] md:w-[50%] w-[100%] md:mx-auto flex justify-between items-center bg-gray-200"> 
+  <div className="w-[100%]">
+   <div className="p-[20px] md:w-[60%] w-[100%] md:mx-auto flex justify-between items-center bg-gray-200"> 
      <h1 className="text-2xl font-bold">
         All Users
      </h1>
@@ -39,7 +40,7 @@ const AllUsers = () => {
 
   </div>
   
-  <div className="flex justify-center md:w-[50%] w-[100%] md:mx-auto">       
+  <div className="flex justify-center md:w-[60%] w-[100%] md:mx-auto">       
        <div className="overflow-x-auto w-[100%]">
        <table className="table w-full table-auto">
          {/* head */}
@@ -61,12 +62,12 @@ const AllUsers = () => {
          
             <tr className="text-white bg-[#374151]" key={id}>
               
-            <td className="px-4 py-2 border">1</td>
+            <td className="px-4 py-2 border">{id+1}</td>
             <td className="px-4 py-2 border">{item?.name}</td>
             <td className="px-4 py-2 border">{item?.roles[0]?.name ? item?.roles[0]?.name :"NOT SET YET"}</td>
             <td className="px-4 py-2 border"><TimeAgo createdAt={item.created_at}></TimeAgo></td>
-            <td className="px-4 py-2 border flex">
-             <button className="btn btn-active btn-success mr-3"
+            <td className="flex px-4 py-2 border">
+             <button className="mr-3 btn btn-active btn-success"
              onClick={()=>editModal(item)}
              >
              <FaEdit className='text-2xl'/>
@@ -85,7 +86,13 @@ const AllUsers = () => {
        </table>
      </div>
    </div>
-  <AddUserModal isOpen={isOpen} onClose={onClose}/>
+  <AddUserModal 
+  isOpen={isOpen} 
+  onClose={onClose}
+  setisOpen={setisOpen}
+
+  
+  />
   <EditUserModal 
   isEditModalOpen={isEditModalOpen} 
   setIsEditModalOpen={setIsEditModalOpen}

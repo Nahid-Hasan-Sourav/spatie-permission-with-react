@@ -1,5 +1,54 @@
+import { useContext } from "react";
+import { UserContext } from "../../context/UserProvider";
 
-const EditUserModal = ({isEditModalOpen,closeEditModal,editData}) => {
+const EditUserModal = ({isEditModalOpen,setIsEditModalOpen,closeEditModal,editData}) => {
+  const {allRoles,setUserRefetch,userRefetch}=useContext(UserContext)
+  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+
+  const handleUserUpdate= async (e)=>{
+    e.preventDefault()
+    const form=e.target;
+    const name= form.name.value;
+    const username= form.username.value;
+    const email= form.email.value;
+    const role= form.role.value;
+
+    
+    const updateUserInfo={
+      id:editData.id,
+      name,
+      email,
+      username,
+      role
+    }
+    console.log("Update data",updateUserInfo)
+    try {
+      const response = await fetch(`${apiUrl}update`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updateUserInfo),
+      });
+  
+      if (response.ok) {
+          const responseData = await response.json();
+          console.log('Response Data:', responseData.status);
+          if(responseData.status==="success"){
+            form.reset();
+            setIsEditModalOpen(!isEditModalOpen);
+           setUserRefetch(!userRefetch);
+          }
+        
+      } else {
+          console.error('Error:', response.statusText);
+      }
+  } catch (error) {
+      console.error('Error:', error);
+  }
+  
+  }
+  
     return (
         <>
         {isEditModalOpen && (
@@ -7,7 +56,9 @@ const EditUserModal = ({isEditModalOpen,closeEditModal,editData}) => {
             id="my_modal_3"
             className="fixed top-[10%] left-[40%] visible w-screen h-screen bg-[#ffffff20] opacity-100 z-10"
           >
-            <form className="modal-box card  bg-base-100 shadow-xl">
+            <form className="shadow-xl modal-box card bg-base-100"
+            onSubmit={handleUserUpdate}
+            >
               <button
                 type="button"
                 onClick={closeEditModal}
@@ -34,7 +85,7 @@ const EditUserModal = ({isEditModalOpen,closeEditModal,editData}) => {
                   </label>
                   <input
                     className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    name="useremail"
+                    name="email"
                     type="email"
                     value={editData.email}
                   />
@@ -51,12 +102,17 @@ const EditUserModal = ({isEditModalOpen,closeEditModal,editData}) => {
                   />
                 </div>  
                 <div className="mb-6">
-                  <select className="select select-bordered w-full max-w-xs">
-                    <option disabled selected>
-                      Who shot first?
-                    </option>
-                    <option>Han Solo</option>
-                    <option>Greedo</option>
+                  <select className="w-full max-w-xs select select-bordered" name="role">
+                    {
+                      allRoles?.allrole?.map((item,id)=>{
+                        return(
+                          <option key={id} selected={item.id==editData?.roles[0]?.id} value={item.id}>
+                         {item.name}
+                        </option>
+                        )
+                      })
+                    }
+                   
                   </select>
                 </div>
   
