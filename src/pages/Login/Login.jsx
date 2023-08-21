@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UserContext} from "../../context/UserProvider";
 
 const Login = () => {
@@ -9,6 +9,8 @@ const Login = () => {
   console.log("url",apiUrl)
   const { user, setUser } = useContext(UserContext);
   const navigate=useNavigate();
+  const location=useLocation();
+  const from=location.state?.from?.pathname || '/'
   const handleUserLogin = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -34,7 +36,7 @@ const Login = () => {
         // Save user data and token to local storage
         localStorage.setItem("user", JSON.stringify(responseData.data)); // Save user data
         localStorage.setItem("token", responseData.token); // Save token
-        navigate("/dashboard")
+        navigate(from,{replace:true});
       } else {
         console.error("Error:", response.statusText);
       }

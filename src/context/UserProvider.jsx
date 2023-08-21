@@ -12,6 +12,7 @@ const UserProvider = ({ children }) => {
   const [userRefetch,setUserRefetch]=useState(false);
   const [rolePermissionRefetch,setRolePermissionRefetch]=useState(false);
   const [updateRolePermissionRefetch,setUpdateRolePermissionRefetch]=useState(false);
+  const [loading,setLoading]=useState(false);
 
 
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -21,8 +22,14 @@ const UserProvider = ({ children }) => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+     if(storedUser.id){
+      setLoading(!false)
+     }
+      
     }
-  }, [user?.id]); // Empty dependency array for initial mount
+  },[user?.id]); // Empty dependency array for initial mount
+  console.log("Loading Change first  : ",loading)
+  console.log("Loading Change second : ",loading)
 
   // GET ALL USERS when component mounts
   useEffect(() => {
@@ -89,6 +96,7 @@ const UserProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("user");
+    setLoading(!true)
     setUser(null);
   };
 
