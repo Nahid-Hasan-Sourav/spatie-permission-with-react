@@ -29,7 +29,7 @@ const EditPaymentModal = ({editPaymentModal,setEditPaymentModal,editPaymentModal
         
             if (response.ok) {
                 const responseData = await response.json();
-                console.log('Response Data:', responseData.status);
+                console.log('Response Data:', responseData);
                 if(responseData.status==="pending"){
                   form.reset();
                   setEditPaymentModal(!editPaymentModal);
@@ -83,7 +83,7 @@ const EditPaymentModal = ({editPaymentModal,setEditPaymentModal,editPaymentModal
                   className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   name="amount"
                   type="text"
-                  value={Number(editPaymentModalData.amount)}
+                  value={editPaymentModalData.amount}
                 />
               </div>
               <div className="flex items-center justify-between">
