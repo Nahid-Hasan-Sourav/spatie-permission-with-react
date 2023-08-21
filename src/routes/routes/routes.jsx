@@ -7,6 +7,8 @@ import SignUp from "../../pages/SignUp/SignUp";
 import AllRoles from "../../pages/AllRoles/AllRoles";
 import AllUsers from "../../pages/AllUsers/AllUsers";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import AllRequest from "../../pages/AllRequest/AllRequest";
+import AllPayment from "../../pages/Payment/AllPayment";
 
 export const router = createBrowserRouter([
     {
@@ -28,15 +30,23 @@ export const router = createBrowserRouter([
             },
             {
                 path:'/dashboard',
-                element:<PrivateRoute><Dashboard/></PrivateRoute>,
+                element:<Dashboard/>,
                 children:[
                     {
                         path:'all-roles',
-                        element:<PrivateRoute><AllRoles/></PrivateRoute>
+                        element:<AllRoles/>
                     },
                     {
                         path:'all-users',
-                        element:<PrivateRoute><AllUsers/></PrivateRoute>
+                        element:<AllUsers/>
+                    },
+                    {
+                        path:'all-request',
+                        element:<AllRequest/>
+                    },
+                    {
+                        path:'all-payment',
+                        element:<AllPayment/>
                     }
                 ]
                 

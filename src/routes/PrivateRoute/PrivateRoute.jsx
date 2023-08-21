@@ -6,7 +6,8 @@ const PrivateRoute = ({children}) => {
     const {user,loading}=useContext(UserContext)
     const location=useLocation();
     
-    if(loading){
+    console.log("Private Route ",loading)
+    if(!loading){
         <div>Loading....</div>
     }
     if(user && user.id){

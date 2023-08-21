@@ -27,6 +27,16 @@ const RightSideBar = () => {
                 Users
               </Link>
             </li>
+            <li>
+              <Link to="all-request" className="text-black">
+                Request
+              </Link>
+            </li>
+            <li>
+              <Link to="all-payment" className="text-black">
+                Payment
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

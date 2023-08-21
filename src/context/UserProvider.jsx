@@ -13,7 +13,9 @@ const UserProvider = ({ children }) => {
   const [rolePermissionRefetch,setRolePermissionRefetch]=useState(false);
   const [updateRolePermissionRefetch,setUpdateRolePermissionRefetch]=useState(false);
   const [loading,setLoading]=useState(false);
-
+  const [refetchPayment,setRefetchPayment]=useState(false);
+  const [payment,setPayment]=useState(false);
+  const [incomingRequest,setIncomingRequest]=useState([]);
 
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -23,7 +25,7 @@ const UserProvider = ({ children }) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
      if(storedUser.id){
-      setLoading(!false)
+      setLoading(!loading)
      }
       
     }
@@ -94,6 +96,38 @@ const UserProvider = ({ children }) => {
         });
     }, [updateRolePermissionRefetch]);
 
+    //GET ALL PAYMENT
+    useEffect(() => {
+      axios.get(`${apiUrl}view-payment`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
+      })
+        .then(response => {
+          setPayment(response.data);
+        //  console.log('All Permission',response?.data?.permission[0])
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }, [refetchPayment]);
+
+     //GET ALL INCOMIING REQUEST
+     useEffect(() => {
+      axios.get(`${apiUrl}incoming-request`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
+      })
+        .then(response => {
+          setIncomingRequest(response.data);
+        //  console.log('All Permission',response?.data?.permission[0])
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }, [refetchPayment]);
+
   const logout = () => {
     localStorage.removeItem("user");
     setLoading(!true)
@@ -116,7 +150,12 @@ const UserProvider = ({ children }) => {
     rolePermissionRefetch,
     setRolePermissionRefetch,
     updateRolePermissionRefetch,
-    setUpdateRolePermissionRefetch
+    setUpdateRolePermissionRefetch,
+    payment,
+    loading,
+    setLoading,
+    setRefetchPayment,
+    incomingRequest
 
   };
 // console.log("Getting All Users",allUsers)
