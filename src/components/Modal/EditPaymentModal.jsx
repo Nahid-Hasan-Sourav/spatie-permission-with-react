@@ -1,23 +1,35 @@
+import { useContext } from "react";
+import { UserContext } from "../../context/userProvider";
 
-const EditPaymentModal = ({editPaymentModal,setEditPaymentModal,editPaymentModalData}) => {
+const EditPaymentModal = ({editPaymentModal,setEditPaymentModal,editPaymentModalData,setEditPaymentModalData}) => {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+  const {buttonLoading,setButtonLoading}=useContext(UserContext);
+  //  console.log("This is the edit modal payment ",editPaymentModalData)
 
-   
+   const handleNameChange = (e) => {
+    const updatedData = { ...editPaymentModalData, name: e.target.value };
+    setEditPaymentModalData(updatedData);
+  };
+   const handleaAmountChange = (e) => {
+    const updatedData = { ...editPaymentModalData, amount: e.target.value };
+    setEditPaymentModalData(updatedData);
+  };
+
 
     const updatePaymentInfo= async (e)=>{
         e.preventDefault();
         const form=e.target;
-        const name=form.name.value;
-        const amount=form.amount.value;
+        // const name=form.paymentName.value;
+        // const amount=form.amount.value;
 
         const updatePayment={
             id:editPaymentModalData.id,
-            name,
-            amount
+            name:editPaymentModalData.name,
+            amount:editPaymentModalData.amount
         }
         console.log("Update Payment",updatePayment)
         try {
-            const response = await fetch(`${apiUrl}update-payment`, {
+            const response = await fetch(`${apiUrl}request-update-payment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,6 +44,8 @@ const EditPaymentModal = ({editPaymentModal,setEditPaymentModal,editPaymentModal
                 console.log('Response Data:', responseData);
                 if(responseData.status==="pending"){
                   form.reset();
+                  // setEditPaymentModal("pending");
+                  // setButtonLoading(!buttonLoading);
                   setEditPaymentModal(!editPaymentModal);
                 //   setUpdateRolePermissionRefetch(!false)
                 }
@@ -42,6 +56,9 @@ const EditPaymentModal = ({editPaymentModal,setEditPaymentModal,editPaymentModal
         } catch (error) {
             console.error('Error:', error);
         }
+        // finally {
+        //   setButtonLoading(false); // Reset loading state after fetch completion
+        // }
     }
     return (
         <>
@@ -69,8 +86,10 @@ const EditPaymentModal = ({editPaymentModal,setEditPaymentModal,editPaymentModal
                 </label>
                 <input
                   className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                  name="name"
+                 
                   type="text"
+                  name="paymentName"
+                  onChange={handleNameChange} // Attach the onChange handler
                   value={editPaymentModalData.name}
                 />
               </div>
@@ -83,6 +102,7 @@ const EditPaymentModal = ({editPaymentModal,setEditPaymentModal,editPaymentModal
                   className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   name="amount"
                   type="text"
+                  onChange={handleaAmountChange}
                   value={editPaymentModalData.amount}
                 />
               </div>
@@ -91,7 +111,7 @@ const EditPaymentModal = ({editPaymentModal,setEditPaymentModal,editPaymentModal
                   className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                   type="submit"
                 >
-                  Add Payment
+                  Update Payment
                 </button>
               </div>
             </div>

@@ -33,6 +33,7 @@ const AddPaymentModal = ({addPaymentModalOpen,setAddPaymentModalOpen}) => {
                 if(responseData.status==="success"){
                 form.reset();
                 setRefetchPayment(!refetchPayment)
+                setAddPaymentModalOpen(!addPaymentModalOpen)
                 }
               
             } else {

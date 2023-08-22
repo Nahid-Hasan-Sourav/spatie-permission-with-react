@@ -12,7 +12,7 @@ const RightSideBar = () => {
           </div>
           <div>
             <p>Nahid Hasan Sourav</p>
-            <a href="">Edit Profile</a>
+            <Link href="">Edit Profile</Link>
           </div>
         </div>
         <div>

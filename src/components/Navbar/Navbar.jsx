@@ -44,7 +44,7 @@ const Navbar = () => {
             </ul>
           </div>
           <Link to="/">
-            <a className="text-xl normal-case btn btn-ghost">PracticeProject</a>
+            <p className="text-xl normal-case btn btn-ghost">PracticeProject</p>
           </Link>
         </div>
         <div className="hidden navbar-center lg:flex">

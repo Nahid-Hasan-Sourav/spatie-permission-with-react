@@ -4,38 +4,43 @@ import { UserContext } from "../../context/userProvider";
 const AllRequest = () => {
   const [addPaymentModalOpen, setAddPaymentModalOpen] = useState(false);
   const { incomingRequest } = useContext(UserContext);
-  const updateAprove=async(item)=>{
+  const [btnStatus, setBtnStatus] = useState(false);
+  const updateAprove = async (item) => {
     const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-    const data={
-        id:item.id
-    }
+    const data = {
+      id: item.id,
+      paymentId: item?.data?.id,
+    };
+    console.log("This is for update data ", data);
     try {
-        const response = await fetch(`${apiUrl}accept-request`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      const response = await fetch(`${apiUrl}accept-request`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(data),
+      });
 
-            },
-            body: JSON.stringify(data),
-        });
-    
-        if (response.ok) {
-            const responseData = await response.json();
-            console.log('Response Data:', responseData.status);
-            if(responseData.status==="aproved"){
-             alert("OK!!!")
-            //   setUpdateRolePermissionRefetch(!false)
-            }
-          
-        } else {
-            console.error('Error:', response.statusText);
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Response Data:", responseData);
+        if (responseData.status === "aproved") {
+          alert("OK!!!");
+          setBtnStatus(!btnStatus);
+          //   setUpdateRolePermissionRefetch(!false)
         }
+        if(responseData.status === "pending"){
+          setBtnStatus(!btnStatus)
+        }
+      } else {
+        console.error("Error:", response.statusText);
+      }
     } catch (error) {
-        console.error('Error:', error);
+      console.error("Error:", error);
     }
-  }
+  };
   return (
     <div className="w-[100%]">
       <div className="p-[20px] md:w-[50%] w-[100%] md:mx-auto flex justify-between items-center bg-gray-200">
@@ -56,7 +61,7 @@ const AllRequest = () => {
               <tr className="text-white">
                 <th className="px-4 py-2"></th>
                 <th className="px-4 py-2">Name</th>
-               
+
                 <th className="px-4 py-2">Created At</th>
                 <th className="px-4 py-2">Action</th>
               </tr>
@@ -65,14 +70,16 @@ const AllRequest = () => {
               {incomingRequest?.data?.map((item, id) => {
                 return (
                   <tr className="text-white bg-[#374151]" key={id}>
-                    <td className="px-4 py-2 border">{id+1}</td>
-                    <td className="px-4 py-2 border">{item.name}</td>
+                    <td className="px-4 py-2 border">{id + 1}</td>
+                    <td className="px-4 py-2 border">{item.data?.name}</td>
                     <td className="px-4 py-2 border">3 min ago</td>
                     <td className="flex px-4 py-2 border">
-                      <button className="mr-3 btn btn-active btn-success"
-                      onClick={()=>updateAprove(item)}
+                      <button
+                        className={`mr-3 btn btn-secondary`}
+                        onClick={() => updateAprove(item)}
+                        // disabled={btnStatus}
                       >
-                        Approved
+                       Approve
                       </button>
                     </td>
                   </tr>
@@ -82,7 +89,6 @@ const AllRequest = () => {
           </table>
         </div>
       </div>
-   
     </div>
   );
 };

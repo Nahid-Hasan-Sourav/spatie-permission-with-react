@@ -16,6 +16,7 @@ const UserProvider = ({ children }) => {
   const [refetchPayment,setRefetchPayment]=useState(false);
   const [payment,setPayment]=useState(false);
   const [incomingRequest,setIncomingRequest]=useState([]);
+  const [buttonLoading,setButtonLoading]=useState(false);
 
   const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -30,8 +31,8 @@ const UserProvider = ({ children }) => {
       
     }
   },[user?.id]); // Empty dependency array for initial mount
-  console.log("Loading Change first  : ",loading)
-  console.log("Loading Change second : ",loading)
+  // console.log("Loading Change first  : ",loading)
+  // console.log("Loading Change second : ",loading)
 
   // GET ALL USERS when component mounts
   useEffect(() => {
@@ -122,6 +123,7 @@ const UserProvider = ({ children }) => {
         .then(response => {
           setIncomingRequest(response.data);
         //  console.log('All Permission',response?.data?.permission[0])
+        console.log("ALL INCOMING REQUEST ",response.data)
         })
         .catch(error => {
           console.error('Error fetching data:', error);
@@ -155,7 +157,10 @@ const UserProvider = ({ children }) => {
     loading,
     setLoading,
     setRefetchPayment,
-    incomingRequest
+    refetchPayment,
+    incomingRequest,
+    buttonLoading,
+    setButtonLoading
 
   };
 // console.log("Getting All Users",allUsers)
